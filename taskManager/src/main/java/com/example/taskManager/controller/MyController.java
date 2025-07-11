@@ -3,11 +3,13 @@ package com.example.taskManager.controller;
 import com.example.taskManager.entity.Task;
 import com.example.taskManager.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/task")
 public class MyController {
@@ -31,8 +33,15 @@ public class MyController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteTask(@PathVariable Long id) {
+    public ResponseEntity<String> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
-        return "Task deleted successfully";
+        return ResponseEntity.ok("Task deleted successfully");
     }
+    
+    @PutMapping("/{id}")
+    public Task updateTask(@PathVariable Long id, @RequestBody Task task) {
+        return taskService.updateTask(id, task);
+    }
+
+
 }
